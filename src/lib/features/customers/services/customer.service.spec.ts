@@ -47,6 +47,18 @@ describe('CustomerService', () => {
 		expect(customer.createdAt).toBeInstanceOf(Date);
 	});
 
+	it('gets a customer by id (AC-16)', async () => {
+		const { service, fetchFn } = createService(
+			jsonResponse({ success: true, data: buildCustomerDto({ id: 'abc/1', name: 'Ana' }) })
+		);
+
+		const customer = await service.getById('abc/1');
+
+		expect(String(fetchFn.mock.calls[0][0])).toBe('http://api.test/customers/abc%2F1');
+		expect(customer.name).toBe('Ana');
+		expect(customer.createdAt).toBeInstanceOf(Date);
+	});
+
 	it('creates a customer with POST, sending trimmed values (AC-18)', async () => {
 		const { service, fetchFn } = createService(
 			jsonResponse({ success: true, data: buildCustomerDto({ name: 'Ana' }) }, 201)

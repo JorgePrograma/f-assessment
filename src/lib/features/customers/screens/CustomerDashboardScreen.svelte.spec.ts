@@ -11,6 +11,7 @@ const mocks = vi.hoisted(() => ({
 	create: vi.fn(),
 	updateStatus: vi.fn(),
 	goto: vi.fn(),
+	showSuccess: vi.fn(),
 	url: new URL('http://localhost/')
 }));
 
@@ -34,7 +35,16 @@ vi.mock('$app/state', () => ({
 	}
 }));
 vi.mock('$app/navigation', () => ({ goto: mocks.goto }));
-vi.mock('$app/paths', () => ({ resolve: (path: string) => path }));
+vi.mock('$app/paths', () => ({
+	resolve: (path: string, params?: { id: string }) =>
+		params ? path.replace('[id]', params.id) : path
+}));
+vi.mock('#lib/design-system/organisms/alerts.ts', () => ({
+	confirmAction: vi.fn(),
+	showLoading: vi.fn(),
+	showSuccess: mocks.showSuccess,
+	showError: vi.fn()
+}));
 
 const SUMMARY = { total: 29, byStatus: { ACTIVE: 14, PENDING: 12, BLOCKED: 3 } };
 
@@ -131,24 +141,14 @@ describe('CustomerDashboardScreen', () => {
 		expect(mocks.goto).toHaveBeenCalledWith('/?status=BLOCKED', expect.anything());
 	});
 
-	it('updates the status from the detail and refreshes list and metrics (AC-17, AC-23)', async () => {
-		const customer = buildCustomer({ name: 'Ana López', status: 'PENDING' });
-		mocks.list
-			.mockResolvedValueOnce({ items: [customer], meta: buildMeta() })
-			.mockResolvedValueOnce({ items: [{ ...customer, status: 'ACTIVE' }], meta: buildMeta() });
-		mocks.updateStatus.mockResolvedValue({ ...customer, status: 'ACTIVE' });
+	it('links each customer to its own detail page instead of a modal (AC-15)', async () => {
+		const customer = buildCustomer({ id: 'abc-123', name: 'Ana López' });
+		mocks.list.mockResolvedValue({ items: [customer], meta: buildMeta() });
 		render(CustomerDashboardScreen);
 
-		await table()
-			.getByRole('button', { name: /Ver detalle.*Ana López/ })
-			.click();
-		await page.getByRole('combobox', { name: 'Cambiar estado' }).selectOptions('Activo');
-		await page.getByRole('button', { name: 'Guardar' }).click();
-
-		expect(mocks.updateStatus).toHaveBeenCalledWith(customer.id, 'ACTIVE');
-		await expect.poll(() => mocks.list).toHaveBeenCalledTimes(2);
-		await expect.poll(() => mocks.summary).toHaveBeenCalledTimes(2);
-		await expect.element(table().getByText('Activo', { exact: true })).toBeVisible();
+		const link = table().getByRole('link', { name: /Ver detalle.*Ana López/ });
+		await expect.element(link).toHaveAttribute('href', '/customers/abc-123');
+		await expect.element(page.getByRole('dialog')).not.toBeInTheDocument();
 	});
 
 	it('creates a customer, confirms it and reloads list and metrics (AC-18, AC-21)', async () => {
@@ -166,7 +166,9 @@ describe('CustomerDashboardScreen', () => {
 			name: 'Nueva Cliente',
 			email: 'nueva@example.com'
 		});
-		await expect.element(page.getByText('Cliente creado: Nueva Cliente')).toBeVisible();
+		await expect
+			.poll(() => mocks.showSuccess)
+			.toHaveBeenCalledWith('¡Cliente creado!', 'Nueva Cliente se registró con estado Pendiente.');
 		await expect
 			.element(page.getByRole('dialog', { name: 'Nuevo cliente' }))
 			.not.toBeInTheDocument();

@@ -5,15 +5,14 @@
 
 	interface Props {
 		customers: Customer[];
-		onselect: (customer: Customer) => void;
 	}
 
-	let { customers, onselect }: Props = $props();
+	let { customers }: Props = $props();
 </script>
 
 <div class="hidden overflow-x-auto px-4 pb-2 sm:px-6 md:block" data-testid="customer-table">
-	<CustomerTable {customers} {onselect} />
+	<CustomerTable {customers} />
 </div>
 <div class="md:hidden" data-testid="customer-cards">
-	<CustomerCards {customers} {onselect} />
+	<CustomerCards {customers} />
 </div>

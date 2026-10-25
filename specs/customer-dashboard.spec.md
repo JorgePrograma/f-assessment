@@ -51,20 +51,21 @@ expuesta por la Customers API (`GET /customers`, `GET /customers/{id}`, `PATCH /
 
 ## 6. Detalle
 
-| ID    | Criterio de aceptación                                                                                                                        |
-| ----- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| AC-15 | Cada cliente tiene un botón **Ver detalle** que abre un modal con todos sus datos.                                                            |
-| AC-16 | El modal se cierra con el botón cerrar, con `Esc` o haciendo clic fuera; el foco vuelve al botón que lo abrió.                                |
-| AC-17 | Desde el detalle se puede cambiar el estado del cliente; al guardar se actualiza la lista. Si falla, se muestra el error sin cerrar el modal. |
+| ID    | Criterio de aceptación                                                                                                                                                                                                               |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| AC-15 | Cada cliente tiene un enlace **Ver detalle** que lleva a su página `/customers/{id}`; el enlace se puede abrir en otra pestaña o compartir.                                                                                          |
+| AC-16 | La página consulta el cliente con `GET /customers/{id}` y muestra todos sus datos. Mientras carga se ve un esqueleto; si no existe (`404`), “Cliente no encontrado” con enlace de vuelta; ante otro error, mensaje y **Reintentar**. |
+| AC-17 | Desde el detalle se puede cambiar el estado. Antes de guardar se pide confirmación; al confirmar se actualiza la página y se notifica el éxito. Si falla, se muestra el error y se conserva el estado anterior.                      |
+| AC-25 | Las acciones usan diálogos SweetAlert2 con el estilo de la aplicación: confirmación antes de cambiar el estado, diálogo de **carga** mientras se procesa y diálogo de **éxito** (o de error) al terminar. No se usan toasts.         |
 
 ## 7. Alta de clientes
 
-| ID    | Criterio de aceptación                                                                                                                                    |
-| ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| AC-18 | Un botón **Nuevo cliente** abre un formulario con nombre y email que crea el cliente con `POST /customers`.                                               |
-| AC-19 | Antes de enviar se valida: nombre obligatorio (máx. 120 caracteres) y email con formato válido. Cada error se muestra junto a su campo.                   |
-| AC-20 | Si el email ya está registrado (`409`) o la API rechaza un campo (`422`), el error se muestra en ese campo sin cerrar el formulario ni perder lo escrito. |
-| AC-21 | Al crear, se cierra el formulario, se notifica “Cliente creado”, se quitan los filtros y la lista se recarga mostrando al nuevo cliente primero.          |
+| ID    | Criterio de aceptación                                                                                                                                                              |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AC-18 | Un botón **Nuevo cliente** abre un formulario con nombre y email que crea el cliente con `POST /customers`.                                                                         |
+| AC-19 | Antes de enviar se valida: nombre obligatorio (máx. 120 caracteres) y email con formato válido. Cada error se muestra junto a su campo.                                             |
+| AC-20 | Si el email ya está registrado (`409`) o la API rechaza un campo (`422`), el error se muestra en ese campo sin cerrar el formulario ni perder lo escrito.                           |
+| AC-21 | Al crear, se cierra el formulario, se muestra el diálogo de éxito “¡Cliente creado!” (SweetAlert2), se quitan los filtros y la lista se recarga mostrando al nuevo cliente primero. |
 
 ## 8. Métricas
 

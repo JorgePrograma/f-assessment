@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { Avatar, Button } from '#lib/design-system/index.ts';
+	import { Avatar, LinkButton } from '#lib/design-system/index.ts';
 	import type { Customer } from '#lib/features/customers/models/customer.model.ts';
 	import { formatDate } from '#lib/core/utils/format.ts';
+	import { customerDetailPath } from '#lib/features/customers/utils/routes.ts';
 	import StatusBadge from './StatusBadge.svelte';
 
 	interface Props {
 		customers: Customer[];
-		onselect: (customer: Customer) => void;
 	}
 
-	let { customers, onselect }: Props = $props();
+	let { customers }: Props = $props();
 </script>
 
 <ul class="divide-y divide-slate-100">
@@ -28,9 +28,9 @@
 					Registrado el
 					<time datetime={customer.createdAt.toISOString()}>{formatDate(customer.createdAt)}</time>
 				</p>
-				<Button variant="ghost" size="sm" onclick={() => onselect(customer)}>
+				<LinkButton variant="ghost" size="sm" href={customerDetailPath(customer.id)}>
 					Ver detalle<span class="sr-only">, {customer.name}</span>
-				</Button>
+				</LinkButton>
 			</div>
 		</li>
 	{/each}

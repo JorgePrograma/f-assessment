@@ -10,14 +10,13 @@
 		ErrorState,
 		PageHeader,
 		Pagination,
-		SearchInput,
-		Toast
+		showSuccess,
+		SearchInput
 	} from '#lib/design-system/index.ts';
 	import type {
 		CreateCustomerInput,
 		Customer,
-		CustomerQuery,
-		CustomerStatus
+		CustomerQuery
 	} from '#lib/features/customers/models/customer.model.ts';
 	import { customerService } from '#lib/features/customers/services/index.ts';
 	import { CustomerListState } from '#lib/features/customers/state/customer-list.state.svelte.ts';
@@ -30,7 +29,6 @@
 		toSearchParams
 	} from '#lib/features/customers/utils/customer-query.ts';
 	import CreateCustomerModal from '#lib/features/customers/components/CreateCustomerModal.svelte';
-	import CustomerDetailModal from '#lib/features/customers/components/CustomerDetailModal.svelte';
 	import CustomerList from '#lib/features/customers/components/CustomerList.svelte';
 	import CustomerListSkeleton from '#lib/features/customers/components/CustomerListSkeleton.svelte';
 	import StatusFilter from '#lib/features/customers/components/StatusFilter.svelte';
@@ -41,9 +39,7 @@
 	const query = $derived(parseCustomerQuery(page.url.searchParams));
 	const filtered = $derived(hasActiveFilters(query));
 
-	let selectedCustomer = $state<Customer | null>(null);
 	let createOpen = $state(false);
-	let notice = $state<string | null>(null);
 
 	$effect(() => {
 		list.load(query);
@@ -73,16 +69,10 @@
 		updateQuery({ status: null, search: '' });
 	}
 
-	async function changeStatus(customer: Customer, status: CustomerStatus) {
-		selectedCustomer = await customerService.updateStatus(customer.id, status);
-		notice = 'Estado actualizado';
-		await Promise.all([list.reload(), summary.load()]);
-	}
-
 	async function createCustomer(input: CreateCustomerInput): Promise<Customer> {
 		const customer = await customerService.create(input);
 		createOpen = false;
-		notice = `Cliente creado: ${customer.name}`;
+		void showSuccess('¡Cliente creado!', `${customer.name} se registró con estado Pendiente.`);
 		if (page.url.search) clearFilters();
 		else void list.reload();
 		void summary.load();
@@ -189,10 +179,7 @@
 				aria-busy={list.isRefreshing}
 				class="transition-opacity duration-150 {list.isRefreshing ? 'opacity-60' : ''}"
 			>
-				<CustomerList
-					customers={list.customers}
-					onselect={(customer) => (selectedCustomer = customer)}
-				/>
+				<CustomerList customers={list.customers} />
 			</div>
 		{/if}
 
@@ -212,16 +199,8 @@
 	<p class="sr-only" aria-live="polite">{announcement}</p>
 </main>
 
-<CustomerDetailModal
-	customer={selectedCustomer}
-	onclose={() => (selectedCustomer = null)}
-	onstatuschange={changeStatus}
-/>
-
 <CreateCustomerModal
 	open={createOpen}
 	onclose={() => (createOpen = false)}
 	oncreate={createCustomer}
 />
-
-<Toast message={notice} onclose={() => (notice = null)} />

@@ -33,6 +33,14 @@ export class CustomerService {
 		return { items: response.data.map(toCustomer), meta: response.meta };
 	}
 
+	async getById(id: string, signal?: AbortSignal): Promise<Customer> {
+		const response = await this.#http.request<SuccessResponse<CustomerDto>>(
+			`/customers/${encodeURIComponent(id)}`,
+			{ signal }
+		);
+		return toCustomer(response.data);
+	}
+
 	async summary(signal?: AbortSignal): Promise<CustomerSummary> {
 		const response = await this.#http.request<SuccessResponse<CustomerSummaryDto>>(
 			'/customers/summary',
