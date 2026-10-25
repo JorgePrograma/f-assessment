@@ -7,7 +7,6 @@
 		totalItems: number;
 		totalPages: number;
 		onpagechange: (page: number) => void;
-		/** When provided, a "rows per page" selector is shown. */
 		pageSizeOptions?: number[];
 		onpagesizechange?: (size: number) => void;
 	}

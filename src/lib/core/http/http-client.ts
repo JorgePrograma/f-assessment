@@ -10,10 +10,6 @@ export interface RequestOptions {
 	signal?: AbortSignal;
 }
 
-/**
- * Thin wrapper over `fetch` that understands the API envelope:
- * resolves with the parsed body on `success: true`, throws `ApiError` otherwise.
- */
 export class HttpClient {
 	readonly #baseUrl: string;
 	readonly #fetch: typeof fetch;

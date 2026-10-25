@@ -13,7 +13,6 @@ import type {
 } from '#lib/features/customers/models/customer.model.ts';
 import type { HttpClient } from '#lib/core/http/http-client.ts';
 
-/** Customer endpoints. Components never call `fetch` directly; they go through this service. */
 export class CustomerService {
 	readonly #http: HttpClient;
 

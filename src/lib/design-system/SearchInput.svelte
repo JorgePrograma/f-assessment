@@ -1,7 +1,3 @@
-<!--
-	Search box that reports its value only after the user stops typing for `delay` ms (AC-05).
-	It also follows external changes of `value`, e.g. when filters are cleared.
--->
 <script lang="ts">
 	import { untrack } from 'svelte';
 

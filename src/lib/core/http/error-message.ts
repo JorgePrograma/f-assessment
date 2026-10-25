@@ -6,10 +6,6 @@ const MESSAGES_BY_CODE: Record<string, string> = {
 	VALIDATION_ERROR: 'Los datos enviados no son válidos.'
 };
 
-/**
- * Turns any thrown value into a message that is safe and useful to show to the user.
- * Features pass their own business codes in `messagesByCode`.
- */
 export function getErrorMessage(
 	error: unknown,
 	messagesByCode: Record<string, string> = {}

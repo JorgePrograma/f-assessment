@@ -1,4 +1,3 @@
-<!-- Round icon-only button. `label` is mandatory: it is the accessible name. -->
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import type { HTMLButtonAttributes } from 'svelte/elements';

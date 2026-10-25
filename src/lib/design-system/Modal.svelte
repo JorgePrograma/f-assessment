@@ -1,7 +1,3 @@
-<!--
-	Accessible modal built on the native <dialog>: focus trapping, `Esc` to close and focus
-	restoration to the trigger come from the browser (AC-16).
--->
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 

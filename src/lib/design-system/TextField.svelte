@@ -1,4 +1,3 @@
-<!-- Labelled text input with an inline error message wired through aria-describedby. -->
 <script lang="ts">
 	import type { HTMLInputAttributes } from 'svelte/elements';
 

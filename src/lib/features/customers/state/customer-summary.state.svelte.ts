@@ -2,7 +2,6 @@ import { isAbortError } from '#lib/core/http/api-error.ts';
 import type { CustomerSummary } from '#lib/features/customers/models/customer-summary.model.ts';
 import type { CustomerService } from '#lib/features/customers/services/customer.service.ts';
 
-/** Reactive state of the dashboard metric cards. */
 export class CustomerSummaryState {
 	summary = $state<CustomerSummary | null>(null);
 	status = $state<'idle' | 'loading' | 'success' | 'error'>('idle');

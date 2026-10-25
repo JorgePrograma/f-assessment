@@ -1,6 +1,5 @@
 import type { ErrorDetail } from './api.model.ts';
 
-/** Codes produced on the client side, in addition to the ones the API returns. */
 export const CLIENT_ERROR_CODES = {
 	network: 'NETWORK_ERROR',
 	invalidResponse: 'INVALID_RESPONSE'

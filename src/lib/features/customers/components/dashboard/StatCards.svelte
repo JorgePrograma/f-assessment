@@ -1,7 +1,3 @@
-<!--
-	Headline metrics. Each card is also a filter for the customer list, so the dashboard
-	and the table stay connected (AC-22, AC-23).
--->
 <script lang="ts">
 	import { formatNumber, formatShare } from '#lib/core/utils/format.ts';
 	import type { CustomerSummary } from '#lib/features/customers/models/customer-summary.model.ts';

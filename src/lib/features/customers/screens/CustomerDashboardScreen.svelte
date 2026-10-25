@@ -1,7 +1,3 @@
-<!--
-	Customer Dashboard screen. The URL is the source of truth for filters and page (AC-08):
-	controls update the URL, and every URL change triggers a new request.
--->
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
@@ -68,7 +64,6 @@
 		return '';
 	});
 
-	/** Filter and search changes go back to page 1 (AC-06); page changes pass `page` explicitly. */
 	function updateQuery(changes: Partial<CustomerQuery>) {
 		const params = toSearchParams({ ...query, page: 1, ...changes }).toString();
 		goto(resolve(params ? `/?${params}` : '/'), { replace: true, reset: false });
@@ -84,7 +79,6 @@
 		await Promise.all([list.reload(), summary.load()]);
 	}
 
-	/** New customers are the most recent, so filters are cleared to show them first (AC-21). */
 	async function createCustomer(input: CreateCustomerInput): Promise<Customer> {
 		const customer = await customerService.create(input);
 		createOpen = false;

@@ -4,10 +4,8 @@ import type { CreateCustomerInput } from '#lib/features/customers/models/custome
 export type CustomerFormErrors = Partial<Record<keyof CreateCustomerInput, string>>;
 
 const MAX_NAME_LENGTH = 120;
-// Pragmatic check for instant feedback; the API performs the authoritative validation.
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/** Client-side validation, mirroring the API rules (AC-19). */
 export function validateCustomerForm(input: CreateCustomerInput): CustomerFormErrors {
 	const errors: CustomerFormErrors = {};
 	const name = input.name.trim();
@@ -23,7 +21,6 @@ export function validateCustomerForm(input: CreateCustomerInput): CustomerFormEr
 	return errors;
 }
 
-/** Maps API rejections onto the field they belong to (AC-20). Returns null for non-field errors. */
 export function toCustomerFormErrors(error: unknown): CustomerFormErrors | null {
 	if (!(error instanceof ApiError)) return null;
 

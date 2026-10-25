@@ -1,4 +1,3 @@
-<!-- Initials avatar; the color is derived from the name, so a person always gets the same one. -->
 <script lang="ts">
 	interface Props {
 		name: string;

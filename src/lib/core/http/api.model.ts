@@ -1,5 +1,3 @@
-/** Envelope shared by every API endpoint (see ms-assessment-customer/specs/customers.spec.md §3). */
-
 export interface PaginationMeta {
 	page: number;
 	size: number;

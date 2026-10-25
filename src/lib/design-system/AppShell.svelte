@@ -1,7 +1,3 @@
-<!--
-	Application frame: brand + sectioned sidebar on desktop, collapsible drawer on mobile.
-	Navigation items are data, so the shell knows nothing about the app's pages.
--->
 <script lang="ts" module>
 	export interface NavItem {
 		label: string;
@@ -112,14 +108,12 @@
 {/snippet}
 
 <div class="min-h-dvh bg-white">
-	<!-- Desktop sidebar -->
 	<aside
 		class="fixed inset-y-0 left-0 z-30 hidden w-64 overflow-y-auto border-r border-slate-200 bg-white px-4 py-6 lg:block"
 	>
 		{@render navigation()}
 	</aside>
 
-	<!-- Mobile drawer -->
 	{#if menuOpen}
 		<div class="fixed inset-0 z-40 lg:hidden">
 			<button

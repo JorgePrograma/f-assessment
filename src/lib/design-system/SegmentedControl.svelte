@@ -1,4 +1,3 @@
-<!-- Single-choice button group; the active option is exposed with aria-pressed. -->
 <script lang="ts" generics="T">
 	interface Option {
 		value: T;

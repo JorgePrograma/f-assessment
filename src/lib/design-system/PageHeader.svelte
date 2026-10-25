@@ -1,4 +1,3 @@
-<!-- Page title band with breadcrumbs and an optional action area. -->
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
@@ -47,7 +46,6 @@
 		<div class="relative z-10 mt-4 sm:mt-0">{@render actions()}</div>
 	{/if}
 
-	<!-- Decorative shapes, purely visual. -->
 	<svg
 		class="pointer-events-none absolute -top-6 right-40 hidden h-36 w-36 text-sky-100 sm:block"
 		viewBox="0 0 100 100"

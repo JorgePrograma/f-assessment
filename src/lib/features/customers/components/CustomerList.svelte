@@ -1,4 +1,3 @@
-<!-- Table from 768 px up, cards below (AC-02). -->
 <script lang="ts">
 	import type { Customer } from '#lib/features/customers/models/customer.model.ts';
 	import CustomerCards from './CustomerCards.svelte';

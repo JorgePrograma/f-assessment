@@ -5,7 +5,6 @@
 		title: string;
 		message: string;
 		onretry: () => void;
-		/** Shown so the user can quote it to support; matches the API logs. */
 		requestId?: string;
 	}
 

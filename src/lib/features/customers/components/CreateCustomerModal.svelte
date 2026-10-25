@@ -1,4 +1,3 @@
-<!-- "Nuevo cliente" form (AC-18 – AC-20). -->
 <script lang="ts">
 	import { Button, Modal, TextField } from '#lib/design-system/index.ts';
 	import type {
@@ -26,7 +25,6 @@
 	let formError = $state<string | null>(null);
 	let saving = $state(false);
 
-	// Every time the form opens it starts clean.
 	$effect(() => {
 		if (open) {
 			name = '';

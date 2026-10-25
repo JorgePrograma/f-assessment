@@ -1,11 +1,9 @@
-<!-- Surface that groups related content under a heading. -->
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
 	interface Props {
 		title?: string;
 		description?: string;
-		/** Removes the inner padding, for content that runs edge to edge (tables, lists). */
 		flush?: boolean;
 		class?: string;
 		actions?: Snippet;

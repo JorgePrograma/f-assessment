@@ -14,7 +14,6 @@ export const EMPTY_QUERY: CustomerQuery = {
 	size: DEFAULT_PAGE_SIZE
 };
 
-/** Reads the query from the URL, silently discarding anything invalid (AC-08). */
 export function parseCustomerQuery(params: Pick<URLSearchParams, 'get'>): CustomerQuery {
 	const status = params.get('status');
 	const page = Number(params.get('page'));
@@ -28,7 +27,6 @@ export function parseCustomerQuery(params: Pick<URLSearchParams, 'get'>): Custom
 	};
 }
 
-/** Serializes the query for the URL, omitting default values to keep links short. */
 export function toSearchParams(query: CustomerQuery): URLSearchParams {
 	const params = new URLSearchParams();
 	if (query.status) params.set('status', query.status);

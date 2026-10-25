@@ -1,4 +1,3 @@
-<!-- Placeholder with the shape of the list while the first page loads (AC-09). -->
 <script lang="ts">
 	interface Props {
 		rows?: number;

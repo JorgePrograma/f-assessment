@@ -1,7 +1,3 @@
-/**
- * Design system: generic, reusable UI building blocks.
- * Nothing in this folder knows about customers or any other business concept.
- */
 export { default as AppShell, type NavItem, type NavSection } from './AppShell.svelte';
 export { default as Avatar } from './Avatar.svelte';
 export { default as Badge, type BadgeTone } from './Badge.svelte';

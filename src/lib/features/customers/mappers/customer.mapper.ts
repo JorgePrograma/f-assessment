@@ -5,7 +5,6 @@ import type {
 import type { CustomerSummary } from '#lib/features/customers/models/customer-summary.model.ts';
 import type { Customer } from '#lib/features/customers/models/customer.model.ts';
 
-/** Translates the API representation (snake_case, ISO strings) into the UI model. */
 export function toCustomer(dto: CustomerDto): Customer {
 	return {
 		id: dto.id,

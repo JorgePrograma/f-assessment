@@ -1,4 +1,3 @@
-<!-- Transient confirmation message; announced politely to screen readers and dismissed after `duration` ms. -->
 <script lang="ts">
 	interface Props {
 		message: string | null;

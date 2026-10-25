@@ -5,21 +5,15 @@ import type { Customer, CustomerQuery } from '#lib/features/customers/models/cus
 
 type LoadStatus = 'idle' | 'loading' | 'success' | 'error';
 
-/**
- * Reactive state of the customer listing: data, loading and error.
- * Only the response of the latest request is ever applied (AC-14).
- */
 export class CustomerListState {
 	customers = $state<Customer[]>([]);
 	meta = $state<PaginationMeta | null>(null);
 	status = $state<LoadStatus>('idle');
 	error = $state<unknown>(null);
 
-	/** First load: nothing to show yet, render a skeleton (AC-09). */
 	isInitialLoading = $derived(
 		this.meta === null && (this.status === 'idle' || this.status === 'loading')
 	);
-	/** Reload with data on screen: keep it visible but dimmed (AC-10). */
 	isRefreshing = $derived(this.meta !== null && this.status === 'loading');
 	isEmpty = $derived(this.status === 'success' && this.customers.length === 0);
 

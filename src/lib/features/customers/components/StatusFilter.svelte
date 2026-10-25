@@ -1,4 +1,3 @@
-<!-- Todos / Activos / Pendientes / Bloqueados (AC-04). -->
 <script lang="ts">
 	import { SegmentedControl } from '#lib/design-system/index.ts';
 	import {

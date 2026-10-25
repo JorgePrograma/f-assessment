@@ -18,7 +18,6 @@ export function formatNumber(value: number): string {
 	return integer.format(value);
 }
 
-/** Share of `part` in `total` (0 when there is no total), e.g. "48 %". */
 export function formatShare(part: number, total: number): string {
 	return percent.format(total === 0 ? 0 : part / total);
 }

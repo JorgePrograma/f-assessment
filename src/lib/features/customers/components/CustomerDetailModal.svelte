@@ -1,4 +1,3 @@
-<!-- Customer detail with status change (AC-15, AC-16, AC-17). -->
 <script lang="ts">
 	import { Button, Modal } from '#lib/design-system/index.ts';
 	import {
@@ -20,7 +19,6 @@
 	let { customer, onclose, onstatuschange }: Props = $props();
 
 	const selectId = $props.id();
-	// Follows the customer's status, but the user can override it through the select.
 	let selectedStatus = $derived<CustomerStatus>(customer?.status ?? 'PENDING');
 	let saving = $state(false);
 	let errorMessage = $state<string | null>(null);
