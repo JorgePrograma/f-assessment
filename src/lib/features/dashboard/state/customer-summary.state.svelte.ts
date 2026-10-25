@@ -1,15 +1,15 @@
 import { isAbortError } from '#lib/core/http/api-error.ts';
-import type { CustomerSummary } from '#lib/features/customers/models/customer-summary.model.ts';
-import type { CustomerService } from '#lib/features/customers/services/customer.service.ts';
+import type { CustomerSummary } from '#lib/features/dashboard/models/customer-summary.model.ts';
+import type { DashboardService } from '#lib/features/dashboard/services/dashboard.service.ts';
 
 export class CustomerSummaryState {
 	summary = $state<CustomerSummary | null>(null);
 	status = $state<'idle' | 'loading' | 'success' | 'error'>('idle');
 
-	readonly #api: CustomerService;
+	readonly #api: DashboardService;
 	#controller: AbortController | null = null;
 
-	constructor(api: CustomerService) {
+	constructor(api: DashboardService) {
 		this.#api = api;
 	}
 
@@ -19,7 +19,7 @@ export class CustomerSummaryState {
 		this.#controller = controller;
 		this.status = 'loading';
 		try {
-			const summary = await this.#api.summary(controller.signal);
+			const summary = await this.#api.customerSummary(controller.signal);
 			if (controller.signal.aborted) return;
 			this.summary = summary;
 			this.status = 'success';

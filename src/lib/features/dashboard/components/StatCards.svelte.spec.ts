@@ -3,6 +3,11 @@ import { describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import StatCards from './StatCards.svelte';
 
+vi.mock('#lib/core/http/index.ts', async () => ({
+	ApiError: (await import('#lib/core/http/api-error.ts')).ApiError,
+	httpClient: {}
+}));
+
 const summary = { total: 20, byStatus: { ACTIVE: 10, PENDING: 6, BLOCKED: 4 } };
 
 describe('StatCards', () => {

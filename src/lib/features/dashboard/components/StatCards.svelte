@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { formatNumber, formatShare } from '#lib/core/utils/format.ts';
-	import type { CustomerSummary } from '#lib/features/customers/models/customer-summary.model.ts';
 	import {
 		CUSTOMER_STATUSES,
+		STATUS_PRESENTATION,
 		type CustomerStatus
-	} from '#lib/features/customers/models/customer.model.ts';
-	import { STATUS_PRESENTATION } from '../customer-status.ts';
+	} from '#lib/features/customers/index.ts';
+	import type { CustomerSummary } from '#lib/features/dashboard/models/customer-summary.model.ts';
 
 	interface Props {
 		summary: CustomerSummary | null;
@@ -38,7 +38,7 @@
 	{#if !summary}
 		{#each { length: 4 }, index (index)}
 			<div
-				class="h-[118px] animate-pulse rounded-2xl bg-white ring-1 ring-slate-200"
+				class="h-29.5 animate-pulse rounded-2xl bg-white ring-1 ring-slate-200"
 				data-testid="stat-card-skeleton"
 			></div>
 		{/each}

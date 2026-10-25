@@ -16,12 +16,10 @@ const mocks = vi.hoisted(() => ({
 }));
 
 vi.mock('#lib/features/customers/services/index.ts', () => ({
-	customerService: {
-		list: mocks.list,
-		summary: mocks.summary,
-		create: mocks.create,
-		updateStatus: mocks.updateStatus
-	}
+	customerService: { list: mocks.list, create: mocks.create, updateStatus: mocks.updateStatus }
+}));
+vi.mock('#lib/features/dashboard/services/index.ts', () => ({
+	dashboardService: { customerSummary: mocks.summary }
 }));
 vi.mock('#lib/core/http/index.ts', async () => ({
 	ApiError: (await import('#lib/core/http/api-error.ts')).ApiError,

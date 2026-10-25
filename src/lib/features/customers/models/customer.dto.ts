@@ -7,8 +7,3 @@ export interface CustomerDto {
 	status: CustomerStatus;
 	created_at: string;
 }
-
-export interface CustomerSummaryDto {
-	total: number;
-	by_status: Record<CustomerStatus, number>;
-}

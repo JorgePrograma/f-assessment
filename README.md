@@ -71,7 +71,7 @@ Organized **by feature** so the frontend stays modular: each feature owns its la
 src/
 ├── routes/                     # Routing only: each page renders a screen
 │   ├── +layout.svelte          # AppShell: sidebar and navigation
-│   ├── +page.svelte            # Customer dashboard
+│   ├── +page.svelte            # Customer Dashboard (dashboard feature)
 │   └── customers/[id]/         # Customer detail page
 └── lib/
     ├── core/                   # Shared infrastructure, no business knowledge
@@ -85,17 +85,21 @@ src/
     │   ├── organisms/          # Modal, PageHeader, alerts (SweetAlert2 dialogs)
     │   └── templates/          # AppShell (sidebar layout)
     └── features/
-        └── customers/
-            ├── index.ts        # Public API of the feature (the only thing imported from outside)
-            ├── models/         # Customer (UI model) and CustomerDto (API contract)
-            ├── mappers/        # CustomerDto → Customer
-            ├── services/       # CustomerService: customer endpoints
-            ├── state/          # CustomerListState, CustomerDetailState, CustomerSummaryState (runes)
-            ├── components/     # StatusBadge, table, cards, create form…
-            │   └── dashboard/  # StatCards (metrics)
-            ├── screens/        # CustomerDashboardScreen, CustomerDetailScreen (Atomic Design "pages")
-            ├── utils/          # URL query, form validation, error messages
-            └── testing/        # Fixtures
+        ├── customers/          # Customer list, detail and creation
+        │   ├── index.ts        # Public API (the only thing imported from outside)
+        │   ├── models/         # Customer (UI model) and CustomerDto (API contract)
+        │   ├── mappers/        # CustomerDto → Customer
+        │   ├── services/       # CustomerService: list, get by id, create, update status
+        │   ├── state/          # CustomerListState, CustomerDetailState (runes)
+        │   ├── components/     # CustomerListSection, table, cards, StatusBadge, create form…
+        │   ├── screens/        # CustomerDetailScreen
+        │   ├── utils/          # URL query, form validation, error messages, routes
+        │   └── testing/        # Fixtures
+        └── dashboard/          # Metrics; composes the "Customer Dashboard" page
+            ├── index.ts
+            ├── models/ · mappers/ · services/ · state/   # customer summary (GET /customers/summary)
+            ├── components/     # StatCards, CustomerMetrics
+            └── screens/        # CustomerDashboardScreen = metrics + CustomerListSection
 ```
 
 Dependency rules (verifiable with `grep`):
@@ -103,6 +107,7 @@ Dependency rules (verifiable with `grep`):
 - `design-system` imports nothing from `core` or `features`.
 - `core` imports nothing from `features`.
 - A feature may use `core` and `design-system`; from outside, only its `index.ts` is used.
+- `dashboard` depends on `customers` only through `customers/index.ts`; `customers` knows nothing about `dashboard`.
 
 Request flow:
 

@@ -73,18 +73,4 @@ describe('CustomerService', () => {
 		});
 		expect(customer.name).toBe('Ana');
 	});
-
-	it('reads the summary for the metric cards (AC-22)', async () => {
-		const { service, fetchFn } = createService(
-			jsonResponse({
-				success: true,
-				data: { total: 3, by_status: { ACTIVE: 1, PENDING: 2, BLOCKED: 0 }, registrations: [] }
-			})
-		);
-
-		const summary = await service.summary();
-
-		expect(String(fetchFn.mock.calls[0][0])).toBe('http://api.test/customers/summary');
-		expect(summary).toEqual({ total: 3, byStatus: { ACTIVE: 1, PENDING: 2, BLOCKED: 0 } });
-	});
 });

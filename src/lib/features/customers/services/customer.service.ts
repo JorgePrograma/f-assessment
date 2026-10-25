@@ -1,10 +1,6 @@
-import { toCustomer, toCustomerSummary } from '#lib/features/customers/mappers/customer.mapper.ts';
+import { toCustomer } from '#lib/features/customers/mappers/customer.mapper.ts';
 import type { Page, PaginatedResponse, SuccessResponse } from '#lib/core/http/api.model.ts';
-import type {
-	CustomerDto,
-	CustomerSummaryDto
-} from '#lib/features/customers/models/customer.dto.ts';
-import type { CustomerSummary } from '#lib/features/customers/models/customer-summary.model.ts';
+import type { CustomerDto } from '#lib/features/customers/models/customer.dto.ts';
 import type {
 	CreateCustomerInput,
 	Customer,
@@ -39,14 +35,6 @@ export class CustomerService {
 			{ signal }
 		);
 		return toCustomer(response.data);
-	}
-
-	async summary(signal?: AbortSignal): Promise<CustomerSummary> {
-		const response = await this.#http.request<SuccessResponse<CustomerSummaryDto>>(
-			'/customers/summary',
-			{ signal }
-		);
-		return toCustomerSummary(response.data);
 	}
 
 	async create(input: CreateCustomerInput): Promise<Customer> {

@@ -1,8 +1,4 @@
-import type {
-	CustomerDto,
-	CustomerSummaryDto
-} from '#lib/features/customers/models/customer.dto.ts';
-import type { CustomerSummary } from '#lib/features/customers/models/customer-summary.model.ts';
+import type { CustomerDto } from '#lib/features/customers/models/customer.dto.ts';
 import type { Customer } from '#lib/features/customers/models/customer.model.ts';
 
 export function toCustomer(dto: CustomerDto): Customer {
@@ -12,12 +8,5 @@ export function toCustomer(dto: CustomerDto): Customer {
 		email: dto.email,
 		status: dto.status,
 		createdAt: new Date(dto.created_at)
-	};
-}
-
-export function toCustomerSummary(dto: CustomerSummaryDto): CustomerSummary {
-	return {
-		total: dto.total,
-		byStatus: dto.by_status
 	};
 }
