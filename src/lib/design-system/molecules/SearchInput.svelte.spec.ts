@@ -6,7 +6,7 @@ import SearchInput from './SearchInput.svelte';
 describe('SearchInput (AC-05)', () => {
 	it('reports the value only once the user stops typing', async () => {
 		const onsearch = vi.fn();
-		render(SearchInput, { value: '', onsearch, label: 'Buscar clientes', delay: 150 });
+		render(SearchInput, { value: '', onsearch, label: 'Buscar clientes', delay: 500 });
 
 		const input = page.getByLabelText('Buscar clientes');
 		await input.fill('an');
