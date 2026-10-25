@@ -26,7 +26,7 @@
 	<meta name="description" content="Consulta y administra los clientes registrados." />
 </svelte:head>
 
-<main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
+<main class="mx-auto max-w-full px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
 	<PageHeader
 		title="Customer Dashboard"
 		breadcrumbs={[{ label: 'Inicio', href: resolve('/') }, { label: 'Clientes' }]}
