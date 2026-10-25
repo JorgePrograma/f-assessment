@@ -33,18 +33,14 @@
 	class="grid items-center gap-4 border-t border-slate-200 px-4 py-4 sm:px-6 md:grid-cols-3"
 >
 	<div class="flex items-center justify-center gap-2 md:justify-start">
-		{#if totalPages > 1}
-			<Button disabled={!hasPrevious} onclick={() => onpagechange(page - 1)}>Anterior</Button>
-			<Button disabled={!hasNext} onclick={() => onpagechange(page + 1)}>Siguiente</Button>
-		{/if}
+		<Button disabled={!hasPrevious} onclick={() => onpagechange(page - 1)}>Anterior</Button>
+		<Button disabled={!hasNext} onclick={() => onpagechange(page + 1)}>Siguiente</Button>
 	</div>
 
 	<div class="text-center">
-		{#if totalPages > 1}
-			<p class="text-sm font-medium text-slate-900" aria-current="page">
-				Página {page} de {totalPages}
-			</p>
-		{/if}
+		<p class="text-sm font-medium text-slate-900" aria-current="page">
+			Página {page} de {Math.max(totalPages, 1)}
+		</p>
 		<p class="text-xs text-slate-500">
 			Mostrando <span class="font-medium text-slate-700">{firstItem}–{lastItem}</span> de
 			<span class="font-medium text-slate-700">{totalItems}</span>

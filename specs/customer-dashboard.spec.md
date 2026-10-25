@@ -29,14 +29,14 @@ expuesta por la Customers API (`GET /customers`, `GET /customers/{id}`, `PATCH /
 
 ## 4. Filtro, búsqueda y paginación
 
-| ID    | Criterio de aceptación                                                                                                                                                |
-| ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| AC-04 | Un filtro con las opciones **Todos, Activos, Pendientes, Bloqueados** limita la lista al estado elegido.                                                              |
-| AC-05 | Un campo de búsqueda filtra por nombre o email. La consulta se envía 300 ms después de dejar de escribir.                                                             |
-| AC-06 | Cambiar filtro o búsqueda vuelve a la página 1.                                                                                                                       |
-| AC-07 | Con más de una página se muestra la paginación (“Mostrando X–Y de Z”, anterior/siguiente).                                                                            |
-| AC-08 | Filtro, búsqueda y página se reflejan en la URL (`?status=&search=&page=`): recargar o compartir el enlace conserva la vista. Valores inválidos en la URL se ignoran. |
-| AC-24 | Un selector **Filas por página** (5, 10, 20, 50) cambia el tamaño de página, vuelve a la página 1 y se refleja en la URL (`?size=`).                                  |
+| ID    | Criterio de aceptación                                                                                                                                                            |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AC-04 | Un filtro con las opciones **Todos, Activos, Pendientes, Bloqueados** limita la lista al estado elegido.                                                                          |
+| AC-05 | Un campo de búsqueda filtra por nombre o email. La consulta se envía 300 ms después de dejar de escribir.                                                                         |
+| AC-06 | Cambiar filtro o búsqueda vuelve a la página 1.                                                                                                                                   |
+| AC-07 | La paginación se muestra siempre (“Página X de Y”, “Mostrando X–Y de Z”, anterior/siguiente); cuando no hay más páginas los botones quedan deshabilitados, sin cambiar el diseño. |
+| AC-08 | Filtro, búsqueda y página se reflejan en la URL (`?status=&search=&page=`): recargar o compartir el enlace conserva la vista. Valores inválidos en la URL se ignoran.             |
+| AC-24 | Un selector **Filas por página** (5, 10, 20, 50) cambia el tamaño de página, vuelve a la página 1 y se refleja en la URL (`?size=`).                                              |
 
 ## 5. Estados
 

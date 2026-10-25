@@ -30,17 +30,19 @@ describe('Pagination (AC-07)', () => {
 		await expect.element(page.getByRole('button', { name: 'Anterior' })).toBeEnabled();
 	});
 
-	it('hides the navigation when everything fits in one page', async () => {
+	it('keeps the navigation visible but disabled when everything fits in one page (AC-07)', async () => {
 		render(Pagination, {
 			page: 1,
-			pageSize: 10,
-			totalItems: 4,
+			pageSize: 50,
+			totalItems: 31,
 			totalPages: 1,
 			onpagechange: vi.fn()
 		});
 
-		await expect.element(page.getByText('1–4')).toBeInTheDocument();
-		await expect.element(page.getByRole('button', { name: 'Siguiente' })).not.toBeInTheDocument();
+		await expect.element(page.getByText('1–31')).toBeInTheDocument();
+		await expect.element(page.getByText('Página 1 de 1')).toBeInTheDocument();
+		await expect.element(page.getByRole('button', { name: 'Anterior' })).toBeDisabled();
+		await expect.element(page.getByRole('button', { name: 'Siguiente' })).toBeDisabled();
 	});
 
 	it('offers a rows-per-page selector when options are given (AC-24)', async () => {
