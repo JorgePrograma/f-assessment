@@ -40,14 +40,14 @@ expuesta por la Customers API (`GET /customers`, `GET /customers/{id}`, `PATCH /
 
 ## 5. Estados
 
-| ID    | Criterio de aceptación                                                                                                                             |
-| ----- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| AC-09 | **Loading inicial**: se muestra un esqueleto con la forma de la lista.                                                                             |
-| AC-10 | **Recarga** (cambio de filtro/página con datos ya visibles): se conservan los datos atenuados y se indica que está cargando, sin saltos de layout. |
-| AC-11 | **Error de API**: mensaje comprensible según el tipo de error (sin conexión, error del servidor…) y botón **Reintentar**.                          |
-| AC-12 | **Lista vacía sin filtros**: mensaje “Aún no hay clientes registrados”.                                                                            |
-| AC-13 | **Sin resultados con filtros**: mensaje específico y botón **Limpiar filtros**.                                                                    |
-| AC-14 | Si llegan respuestas fuera de orden (ej. el usuario escribe rápido), solo se muestra la de la última consulta.                                     |
+| ID    | Criterio de aceptación                                                                                                                                                                              |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AC-09 | **Loading inicial**: se muestra un esqueleto con la forma de la lista.                                                                                                                              |
+| AC-10 | **Recarga** (cambio de filtro/página o tras crear un cliente con datos ya visibles): los datos actuales se mantienen visibles sin parpadeos ni indicadores, y se reemplazan al llegar la respuesta. |
+| AC-11 | **Error de API**: mensaje comprensible según el tipo de error (sin conexión, error del servidor…) y botón **Reintentar**.                                                                           |
+| AC-12 | **Lista vacía sin filtros**: mensaje “Aún no hay clientes registrados”.                                                                                                                             |
+| AC-13 | **Sin resultados con filtros**: mensaje específico y botón **Limpiar filtros**.                                                                                                                     |
+| AC-14 | Si llegan respuestas fuera de orden (ej. el usuario escribe rápido), solo se muestra la de la última consulta.                                                                                      |
 
 ## 6. Detalle
 

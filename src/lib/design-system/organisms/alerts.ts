@@ -61,9 +61,7 @@ export async function showSuccess(title: string, text?: string): Promise<void> {
 		title,
 		text,
 		confirmButtonText: 'Aceptar',
-		confirmButtonColor: BRAND,
-		timer: 2500,
-		timerProgressBar: true
+		confirmButtonColor: BRAND
 	});
 }
 

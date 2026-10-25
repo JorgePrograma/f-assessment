@@ -103,10 +103,6 @@
 		<StatusFilter value={query.status} onchange={(status) => updateQuery({ status })} />
 	</div>
 
-	{#if list.isRefreshing}
-		<div class="h-0.5 animate-pulse bg-indigo-500" aria-hidden="true"></div>
-	{/if}
-
 	{#if list.isInitialLoading}
 		<CustomerListSkeleton />
 	{:else if list.status === 'error'}
@@ -148,10 +144,7 @@
 			</EmptyState>
 		{/if}
 	{:else}
-		<div
-			aria-busy={list.isRefreshing}
-			class="transition-opacity duration-150 {list.isRefreshing ? 'opacity-60' : ''}"
-		>
+		<div aria-busy={list.isRefreshing}>
 			<CustomerList customers={list.customers} />
 		</div>
 	{/if}
