@@ -41,21 +41,22 @@ Open http://localhost:5173.
 
 ## Features
 
-| Assignment requirement                  | Implementation                                                                                                         |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Consume a REST API                      | The real Customers API: `GET /customers`, `GET /customers/summary`, `POST /customers`, `PATCH /customers/{id}/status`. |
-| Table with name, email, status and date | `CustomerTable` (≥ 768 px, with avatar and action icons) and `CustomerCards` (mobile).                                 |
-| Status filter                           | All / Active / Pending / Blocked (`StatusFilter`).                                                                     |
-| Search by name or email                 | `SearchInput` with a 300 ms debounce; the search is resolved by the API.                                               |
-| `<StatusBadge status="ACTIVE" />`       | Reusable component, exported through the feature's public API.                                                         |
-| Loading, API error and empty list       | Skeleton, error with **Retry**, empty state with and without filters.                                                  |
-| Responsive                              | Sidebar on desktop and drawer menu on mobile; table ↔ cards; no horizontal scroll.                                     |
-| **Extra:** View details                 | Accessible modal (native `<dialog>`) with every field and status change.                                               |
+| Assignment requirement                  | Implementation                                                                                                                                |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Consume a REST API                      | The real Customers API: `GET /customers`, `GET /customers/{id}`, `GET /customers/summary`, `POST /customers`, `PATCH /customers/{id}/status`. |
+| Table with name, email, status and date | `CustomerTable` (≥ 768 px, with avatar and action icons) and `CustomerCards` (mobile).                                                        |
+| Status filter                           | All / Active / Pending / Blocked (`StatusFilter`).                                                                                            |
+| Search by name or email                 | `SearchInput` with a 300 ms debounce; the search is resolved by the API.                                                                      |
+| `<StatusBadge status="ACTIVE" />`       | Reusable component, exported through the feature's public API.                                                                                |
+| Loading, API error and empty list       | Skeleton, error with **Retry**, empty state with and without filters.                                                                         |
+| Responsive                              | Sidebar on desktop and drawer menu on mobile; table ↔ cards; no horizontal scroll.                                                            |
+| **Extra:** View details                 | Dedicated page `/customers/{id}` (`GET /customers/{id}`) with every field, status change, and loading / not-found / error states.             |
 
 Beyond the assignment:
 
 - **Metric cards** (total and count per status, with its share) that also filter the list.
-- **Customer creation** ("Nuevo cliente"): live validation, API errors (`409`, `422`) shown on their field, and a confirmation toast.
+- **Customer creation** ("Nuevo cliente"): live validation and API errors (`409`, `422`) shown on their field.
+- **SweetAlert2 dialogs** for actions: confirmation before changing a status, a loading dialog while the request runs and a success (or error) dialog at the end.
 - **Pagination** with a rows-per-page selector (5, 10, 20, 50).
 - **Filters, search, page and page size in the URL**: reloading or sharing the link keeps the view.
 - **Accessibility**: labels, `aria-pressed`, `aria-live`, managed focus and keyboard navigation.
@@ -70,25 +71,29 @@ Organized **by feature** so the frontend stays modular: each feature owns its la
 src/
 ├── routes/                     # Routing only: each page renders a screen
 │   ├── +layout.svelte          # AppShell: sidebar and navigation
-│   └── +page.svelte
+│   ├── +page.svelte            # Customer dashboard
+│   └── customers/[id]/         # Customer detail page
 └── lib/
     ├── core/                   # Shared infrastructure, no business knowledge
     │   ├── http/               # HttpClient, ApiError, response envelope, error messages
     │   ├── utils/              # Date and number formatting
     │   └── testing/            # Generic test helpers
-    ├── design-system/          # Generic, reusable UI: AppShell, PageHeader, Card, Button,
-    │                           # IconButton, Badge, Avatar, Modal, Toast, TextField, SearchInput,
-    │                           # SegmentedControl, Pagination, EmptyState, ErrorState
+    ├── design-system/          # Generic, reusable UI organized with Atomic Design
+    │   ├── atoms/              # Button, LinkButton, IconLink, Badge, Avatar
+    │   ├── molecules/          # TextField, SearchInput, SegmentedControl, Pagination, Card,
+    │   │                       # EmptyState, ErrorState
+    │   ├── organisms/          # Modal, PageHeader, alerts (SweetAlert2 dialogs)
+    │   └── templates/          # AppShell (sidebar layout)
     └── features/
         └── customers/
             ├── index.ts        # Public API of the feature (the only thing imported from outside)
             ├── models/         # Customer (UI model) and CustomerDto (API contract)
             ├── mappers/        # CustomerDto → Customer
             ├── services/       # CustomerService: customer endpoints
-            ├── state/          # CustomerListState and CustomerSummaryState (runes)
-            ├── components/     # StatusBadge, table, cards, detail and create modals…
+            ├── state/          # CustomerListState, CustomerDetailState, CustomerSummaryState (runes)
+            ├── components/     # StatusBadge, table, cards, create form…
             │   └── dashboard/  # StatCards (metrics)
-            ├── screens/        # CustomerDashboardScreen: composes everything above
+            ├── screens/        # CustomerDashboardScreen, CustomerDetailScreen (Atomic Design "pages")
             ├── utils/          # URL query, form validation, error messages
             └── testing/        # Fixtures
 ```
@@ -109,7 +114,7 @@ Screen ──► State (runes) ──► Service ──► HttpClient ──► 
 
 ## Technical decisions
 
-- **Spec-Driven Development**: the behaviour is defined in [`specs/customer-dashboard.spec.md`](specs/customer-dashboard.spec.md) as acceptance criteria (`AC-01` … `AC-24`), and every test states the criterion it covers.
+- **Spec-Driven Development**: the behaviour is defined in [`specs/customer-dashboard.spec.md`](specs/customer-dashboard.spec.md) as acceptance criteria (`AC-01` … `AC-25`), and every test states the criterion it covers.
 - **State with runes in classes** (`CustomerListState` in a `.svelte.ts` file): `$state` and `$derived` encapsulate data, loading and error in an object that can be tested without mounting components. No stores or external state libraries: runes are the recommended approach in Svelte 5.
 - **The URL is the source of truth** for filter, search, page and page size: controls update the URL and the screen reacts. Reloading or sharing the link keeps the view.
 - **Native `fetch` wrapped in `HttpClient`** instead of axios: no extra dependency, it understands the API's `success / data / error` envelope and turns every failure into a typed `ApiError` (`code`, `status`, `requestId`).
@@ -118,5 +123,8 @@ Screen ──► State (runes) ──► Service ──► HttpClient ──► 
 - **Server-side search**: since the list is paginated, filtering in the browser would only search the loaded page. `?search=` was added to the backend.
 - **Errors as useful messages**: users see a clear message depending on the kind of error (offline, server error…) and a reference (`X-Request-ID`) that matches the backend logs.
 - **Own design system on Tailwind**: small, generic components; each status's look is defined once (`customer-status.ts`) and reused by the badge, the filter, the select and the metric cards.
-- **Modals on the native `<dialog>`**: the browser provides focus trapping, closing with `Esc` and returning focus to the button that opened it.
+- **Detail on its own page instead of a modal**: the URL can be shared or opened in a new tab, and it uses `GET /customers/{id}`, so a customer outside the current page can be shown too.
+- **Atomic Design in the design system** (atoms → molecules → organisms → templates); the feature `screens/` play the role of pages, where real data is injected.
+- **SweetAlert2 behind a small wrapper** (`organisms/alerts.ts`): screens call `confirmAction`, `showLoading`, `showSuccess` and `showError`, so the library can be swapped without touching them, it is loaded lazily (no SSR or bundle cost on first paint) and it is mocked in tests.
+- **Create form on the native `<dialog>`**: the browser provides focus trapping, closing with `Esc` and returning focus to the button that opened it.
 - **Tests in a real browser** (Vitest browser mode + Playwright): component tests load the real styles, so they truly verify the table ↔ cards switch depending on the width.
